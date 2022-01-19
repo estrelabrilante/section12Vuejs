@@ -53,6 +53,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   data() {
     return {
@@ -75,21 +76,30 @@ export default {
       //       userName: this.enteredName,
       //       rating: this.chosenRating,
       //     });
-
-      // sending http request
-      fetch(
+      // axios
+      axios.post(
         'https://http-requests-with-vue-demo-default-rtdb.firebaseio.com/surveys.json',
         {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: this.enteredName,
-            rating: this.chosenRating,
-          }),
+          name: this.enteredName,
+          rating: this.chosenRating,
         }
       );
+
+      // sending http request
+      // fetch(
+      //   'https://http-requests-with-vue-demo-default-rtdb.firebaseio.com/surveys.json',
+      //   {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     body: JSON.stringify({
+      //       name: this.enteredName,
+      //       rating: this.chosenRating,
+      //     }),
+      //   }
+      // );
+
       // reset to initial value
       this.enteredName = '';
       this.chosenRating = null;
