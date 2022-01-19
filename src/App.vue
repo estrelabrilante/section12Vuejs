@@ -1,6 +1,6 @@
 <template>
-  <learning-survey @survey-submit="storeSurvey"></learning-survey>
-  <user-experiences :results="savedSurveyResults"></user-experiences>
+  <learning-survey></learning-survey>
+  <user-experiences></user-experiences>
 </template>
 
 <script>
@@ -14,22 +14,23 @@ export default {
     UserExperiences,
   },
   data() {
+    // no longer doing locally
     // manage list of submitted survey
-    return {
-      savedSurveyResults: [],
-    };
+    // return {
+    //   savedSurveyResults: [],
+    // };
   },
   methods: {
     // methods for adding new results
-    storeSurvey(surveyData) {
-      const surveyResult = {
-        name: surveyData.userName,
-        rating: surveyData.rating,
-        id: new Date().toISOString(),
-      };
-      this.savedSurveyResults.push(surveyResult);
-      console.log(surveyResult);
-    },
+    // storeSurvey(surveyData) {
+    //   const surveyResult = {
+    //     name: surveyData.userName,
+    //     rating: surveyData.rating,
+    //     id: new Date().toISOString(),
+    //   };
+    //   this.savedSurveyResults.push(surveyResult);
+    //   console.log(surveyResult);
+    // },
   },
 };
 </script>

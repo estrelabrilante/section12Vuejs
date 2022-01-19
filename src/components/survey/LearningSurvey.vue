@@ -61,7 +61,7 @@ export default {
       invalidInput: false,
     };
   },
-  emits: ['survey-submit'],
+  // emits: ['survey-submit'],
   methods: {
     submitSurvey() {
       // field is empty ,then invalidInput is true
@@ -70,11 +70,26 @@ export default {
         return;
       }
       this.invalidInput = false;
-      // custom emit to App.vue
-      this.$emit('survey-submit', {
-        userName: this.enteredName,
-        rating: this.chosenRating,
-      });
+      // custom emit to App.vue (no need to emit custom event)
+      //  this.$emit('survey-submit', {
+      //       userName: this.enteredName,
+      //       rating: this.chosenRating,
+      //     });
+
+      // sending http request
+      fetch(
+        'https://http-requests-with-vue-demo-default-rtdb.firebaseio.com/surveys.json',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: this.enteredName,
+            rating: this.chosenRating,
+          }),
+        }
+      );
       // reset to initial value
       this.enteredName = '';
       this.chosenRating = null;
