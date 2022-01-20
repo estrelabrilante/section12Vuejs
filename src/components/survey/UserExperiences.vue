@@ -7,7 +7,15 @@
           >Load Submitted Experiences</base-button
         >
       </div>
-      <ul>
+      <p v-if="isLoading">Loading data...</p>
+      <!-- invalid url -->
+      <p v-else-if="!isLoading && error">{{ error }}</p>
+      <!-- No data in firebase -->
+      <p v-else-if="!isLoading && (!results || results.length === 0)">
+        No stored data in database
+      </p>
+      <!-- Data is available in firebase -->
+      <ul v-else-if="!isLoading && results && results.length > 0">
         <survey-result
           v-for="result in results"
           :key="result.id"
@@ -30,10 +38,16 @@ export default {
   data() {
     return {
       results: [],
+      isLoading: false,
+      // initially no error
+      error: null,
     };
   },
   methods: {
     loadExperiences() {
+      this.isLoading = true;
+      // reset error
+      this.error = null;
       fetch(
         'https://http-requests-with-vue-demo-default-rtdb.firebaseio.com/surveys.json'
       )
@@ -44,8 +58,9 @@ export default {
           }
         })
         .then((data) => {
-          // access to data
-          console.log(data);
+          (this.isLoading = false),
+            // access to data
+            console.log(data);
           const tempResults = [];
           for (const id in data) {
             tempResults.push({
@@ -55,6 +70,11 @@ export default {
             });
           }
           this.results = tempResults;
+        })
+        .catch((error) => {
+          this.isLoading = false;
+          console.log(error);
+          this.error = ' failed to fetch data -- Please try again later';
         });
     },
   },
